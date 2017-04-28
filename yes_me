@@ -1,0 +1,32 @@
+# -*-coding:utf-8 -*-
+import math
+import requests
+import jieba
+import sys
+reload(sys)
+sys.setdefaultencoding('utf8') #设置python的默认编码为utf-8的编码格式
+
+argv='/Home/meeeeeeeeeeee/Downloads/zuoye/太空旅客.txt'
+oFilePath = '/Home/meeeeeeeeeeee/Downloads/zuoye/fenci/'
+filename = argv
+f = open(filename,'r')
+file_read = f.read()
+f.close()
+fen_list = jieba.cut(file_read,cut_all=True)
+result = {}
+for fen in fen_list:
+    # sys.stdout.write(fen.encode('utf-8') + ',')
+    fen = ' '.join(fen.split())
+    if(fen != ''and fen != "\n" and fen != "\n\n" and fen.isdigit()!=True and len(fen)>1):
+        if result.has_key(fen):
+            result[fen] += 1
+        else:
+            result[fen] = 1
+
+
+f = open(oFilePath+'ttt.txt',"w")
+
+L = sorted(result.items(),key=lambda asd:asd[1],reverse=True)
+for keyword in L[0:5]:
+    f.write(keyword[0]+' '+'出现次数：'+str(keyword[1])+'\n')
+f.close()
